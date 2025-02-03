@@ -1,0 +1,4 @@
+40
+170
+
+# Replace the above values with the number of the wallpaper to be shown at sunrise and sunset respectively
