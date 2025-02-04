@@ -4,6 +4,7 @@ from ctypes.wintypes import LPCWSTR, UINT, LPWSTR
 import comtypes
 from comtypes import IUnknown, GUID, COMMETHOD
 
+import json
 from pathlib import Path
 
 import time
@@ -65,19 +66,23 @@ class IDesktopWallpaper(IUnknown):
 
 
 def main():
-    IMG_LIBRARY_DIR = Path.cwd() / "Wallpapers"
-    wallpapers = [*map(str, IMG_LIBRARY_DIR.iterdir())]
+    with open("config.json") as file:
+        config = json.load(file)
+
+    wallpaperDir = Path.cwd() / "Wallpapers"
+    wallpapers = [*map(str, wallpaperDir.iterdir())]
     wallpaperCount = len(wallpapers)
     
-    with open("Location.txt", "r") as f:
-        try:
-            lat = float(f.readline())
-        except ValueError:
-            lat = 0.0
-        try:
-            lng = float(f.readline())
-        except ValueError:
-            lng = 0.0
+    try:
+        lat = float(config["latitude"])
+    except ValueError:
+        lat = 0.0
+    
+    try:
+        #lng = float(config["longitude"])
+        lng = float("hi")
+    except ValueError:
+        lng = 0.0
 
     response = requests.get(f"https://api.sunrise-sunset.org/json?lat={lat}&lng={lng}").json()
     sunrise = datetime.datetime.strptime(response["results"]["sunrise"], "%I:%M:%S %p")
@@ -89,23 +94,20 @@ def main():
     minsInDay = 24 * 60
     riseToSetMins = sunsetMins - sunriseMins
     setToRiseMins = sunriseMins + minsInDay - sunsetMins
-
-    sunrisePic = 1 # Default sunrise pic is first image - Change the value in Wallpaper Index to the image number of your sunrise image
-    sunsetPic = wallpaperCount # Default sunrise pic is last image - Change the value in Wallpaper Index to the image number of your sunrise image
-
-    with open("Wallpaper Index.txt", "r") as f:
-        try:
-            sunrisePic = int(f.readline())
-            if sunrisePic < 1 or sunrisePic > wallpaperCount:
-                sunrisePic = 1
-        except ValueError:
+    
+    try:
+        sunrisePic = int(config["sunrisePic"])
+        if sunrisePic < 1 or sunrisePic > wallpaperCount:
             sunrisePic = 1
-        try:
-            sunsetPic = int(f.readline())
-            if sunsetPic < 1 or sunsetPic > wallpaperCount:
-                sunrisePic = wallpaperCount
-        except ValueError:
-            sunsetPic = wallpaperCount
+    except ValueError:
+        sunrisePic = 1
+
+    try:
+        sunsetPic = int(config["sunsetPic"])
+        if sunsetPic < 1 or sunsetPic > wallpaperCount:
+            sunrisePic = wallpaperCount
+    except ValueError:
+        sunsetPic = wallpaperCount
 
     currentTimeMins = (datetime.datetime.now().hour * 60) + datetime.datetime.now().minute
 

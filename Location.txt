@@ -1,4 +1,0 @@
-0.0
-0.0
-
-# Replace the above values with your lattitude and longitude respectively
