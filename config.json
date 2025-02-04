@@ -1,8 +1,9 @@
 {
-    "latitude": 0.0,
-    "longitude": 0.0,
+    "useSunRiseAndSet": true,
     "sunriseIndex": 1,
     "sunsetIndex": 4,
+    "latitude": 0.0,
+    "longitude": 0.0,
     "targetMoitorIndex": 0,
     "wallpaperFileType": "png"
 }

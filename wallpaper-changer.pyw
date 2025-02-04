@@ -94,18 +94,23 @@ def main():
     riseToSetMins = sunsetMins - sunriseMins
     setToRiseMins = sunriseMins + minsInDay - sunsetMins
     
-    try:
-        sunriseIndex = int(config["sunriseIndex"])
-        if sunriseIndex < 1 or sunriseIndex > wallpaperCount:
+    if config["useSunRiseAndSet"]:
+        try:
+            sunriseIndex = int(config["sunriseIndex"])
+            if sunriseIndex < 1 or sunriseIndex > wallpaperCount:
+                sunriseIndex = 1
+        except ValueError:
             sunriseIndex = 1
-    except ValueError:
-        sunriseIndex = 1
 
-    try:
-        sunsetIndex = int(config["sunsetIndex"])
-        if sunsetIndex < 1 or sunsetIndex > wallpaperCount:
+        try:
+            sunsetIndex = int(config["sunsetIndex"])
+            if sunsetIndex < 1 or sunsetIndex > wallpaperCount:
+                sunsetIndex = wallpaperCount
+        except ValueError:
             sunsetIndex = wallpaperCount
-    except ValueError:
+    
+    else:
+        sunriseIndex = 1
         sunsetIndex = wallpaperCount
 
     currentTimeMins = (datetime.datetime.now().hour * 60) + datetime.datetime.now().minute
