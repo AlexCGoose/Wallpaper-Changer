@@ -110,8 +110,8 @@ def main():
 
     currentTimeMins = (datetime.datetime.now().hour * 60) + datetime.datetime.now().minute
 
-    desktop_wallpaper = IDesktopWallpaper.CoCreateInstance()
-    monitor_id = desktop_wallpaper.GetMonitorDevicePathAt(0)
+    desktopWallpaper = IDesktopWallpaper.CoCreateInstance()
+    monitorId = desktopWallpaper.GetMonitorDevicePathAt(config["targetModitorIndex"])
 
     if sunriseMins < currentTimeMins < sunsetMins:
         minsPerPic = riseToSetMins / (sunsetIndex - sunriseIndex)
@@ -129,7 +129,7 @@ def main():
     while i <= wallpaperCount:
         fileName = str(i) + ".png"
         path = Path.cwd() / "Wallpapers" / fileName
-        desktop_wallpaper.SetWallpaper(monitor_id, str(path))
+        desktopWallpaper.SetWallpaper(monitorId, str(path))
 
         time.sleep(int(60 * minsPerPic))
 
