@@ -127,7 +127,7 @@ def main():
 
     i = int(currentPic)
     while i <= wallpaperCount:
-        fileName = str(i) + ".png"
+        fileName = str(i) + '.' + config["wallpaperFileType"]
         path = Path.cwd() / "Wallpapers" / fileName
         desktopWallpaper.SetWallpaper(monitorId, str(path))
 

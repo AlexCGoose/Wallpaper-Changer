@@ -3,5 +3,6 @@
     "longitude": 0.0,
     "sunriseIndex": 1,
     "sunsetIndex": 4,
-    "targetMoitorIndex": 0
+    "targetMoitorIndex": 0,
+    "wallpaperFileType": "png"
 }
