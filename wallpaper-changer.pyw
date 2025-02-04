@@ -79,8 +79,7 @@ def main():
         lat = 0.0
     
     try:
-        #lng = float(config["longitude"])
-        lng = float("hi")
+        lng = float(config["longitude"])
     except ValueError:
         lng = 0.0
 
@@ -96,18 +95,18 @@ def main():
     setToRiseMins = sunriseMins + minsInDay - sunsetMins
     
     try:
-        sunrisePic = int(config["sunrisePic"])
-        if sunrisePic < 1 or sunrisePic > wallpaperCount:
-            sunrisePic = 1
+        sunriseIndex = int(config["sunriseIndex"])
+        if sunriseIndex < 1 or sunriseIndex > wallpaperCount:
+            sunriseIndex = 1
     except ValueError:
-        sunrisePic = 1
+        sunriseIndex = 1
 
     try:
-        sunsetPic = int(config["sunsetPic"])
-        if sunsetPic < 1 or sunsetPic > wallpaperCount:
-            sunrisePic = wallpaperCount
+        sunsetIndex = int(config["sunsetIndex"])
+        if sunsetIndex < 1 or sunsetIndex > wallpaperCount:
+            sunsetIndex = wallpaperCount
     except ValueError:
-        sunsetPic = wallpaperCount
+        sunsetIndex = wallpaperCount
 
     currentTimeMins = (datetime.datetime.now().hour * 60) + datetime.datetime.now().minute
 
@@ -115,15 +114,15 @@ def main():
     monitor_id = desktop_wallpaper.GetMonitorDevicePathAt(0)
 
     if sunriseMins < currentTimeMins < sunsetMins:
-        minsPerPic = riseToSetMins / (sunsetPic - sunrisePic)
-        currentPic = sunrisePic + (currentTimeMins - sunriseMins) / minsPerPic
+        minsPerPic = riseToSetMins / (sunsetIndex - sunriseIndex)
+        currentPic = sunriseIndex + (currentTimeMins - sunriseMins) / minsPerPic
     
     elif sunsetMins < currentTimeMins :
-        minsPerPic = setToRiseMins / (wallpaperCount - sunsetPic + sunrisePic)
-        currentPic = int(sunsetPic + ((currentTimeMins - sunsetMins) / minsPerPic)) % wallpaperCount
+        minsPerPic = setToRiseMins / (wallpaperCount - sunsetIndex + sunriseIndex)
+        currentPic = int(sunsetIndex + ((currentTimeMins - sunsetMins) / minsPerPic)) % wallpaperCount
 
     else:
-        minsPerPic = setToRiseMins / (wallpaperCount - sunsetPic + sunrisePic)
+        minsPerPic = setToRiseMins / (wallpaperCount - sunsetIndex + sunriseIndex)
         currentPic = currentTimeMins / minsPerPic
 
     i = int(currentPic)
@@ -132,14 +131,14 @@ def main():
         path = Path.cwd() / "Wallpapers" / fileName
         desktop_wallpaper.SetWallpaper(monitor_id, str(path))
 
-        time.sleep(60 * int(minsPerPic))
+        time.sleep(int(60 * minsPerPic))
 
         i += 1
 
-        if i < sunrisePic or i > sunsetPic:
-            minsPerPic = setToRiseMins / (wallpaperCount - sunsetPic + sunrisePic)
+        if i < sunriseIndex or i > sunsetIndex:
+            minsPerPic = setToRiseMins / (wallpaperCount - sunsetIndex + sunriseIndex)
         else:
-            minsPerPic = riseToSetMins / (sunsetPic - sunrisePic)
+            minsPerPic = riseToSetMins / (sunsetIndex - sunriseIndex)
         
         if i >= wallpaperCount:
             i = 1
