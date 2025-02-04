@@ -65,7 +65,7 @@ class IDesktopWallpaper(IUnknown):
 
 
 def main():
-    IMG_LIBRARY_DIR = Path("/Wallpapers/")
+    IMG_LIBRARY_DIR = Path.cwd() / "Wallpapers"
     wallpapers = [*map(str, IMG_LIBRARY_DIR.iterdir())]
     wallpaperCount = len(wallpapers)
     
@@ -126,9 +126,9 @@ def main():
 
     i = int(currentPic)
     while i <= wallpaperCount:
-        pathStr = "/Wallpapers/" + str(i) + ".png"
-        print(pathStr)
-        desktop_wallpaper.SetWallpaper(monitor_id, pathStr)
+        fileName = str(i) + ".png"
+        path = Path.cwd() / "Wallpapers" / fileName
+        desktop_wallpaper.SetWallpaper(monitor_id, str(path))
 
         time.sleep(60 * int(minsPerPic))
 
