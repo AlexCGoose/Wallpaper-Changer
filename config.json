@@ -4,8 +4,8 @@
     "sunsetIndex": 4,
     "latitude": 0.0,
     "longitude": 0.0,
-    "targetMoitorIndex": 0,
+    "targetMonitorIndex": 0,
     "wallpaperFileType": "png",
     "randomise": false,
-    "randmoniseIntervalMins": 1
+    "randomiseIntervalMins": 1
 }

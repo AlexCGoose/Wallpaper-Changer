@@ -79,9 +79,9 @@ def main():
 
     # Set wallpaper object and monitor ID
     desktopWallpaper = IDesktopWallpaper.CoCreateInstance()
-    monitorId = desktopWallpaper.GetMonitorDevicePathAt(config["targetModitorIndex"])
+    monitorId = desktopWallpaper.GetMonitorDevicePathAt(config["targetMonitorIndex"])
 
-    if config["randomised"]:
+    if config["randomise"]:
         # Randomise wallpapers every `randomiseInvervalMins` minutes
         while True:
             desktopWallpaper.SetWallpaper(monitorId, random.choice(wallpapers))
